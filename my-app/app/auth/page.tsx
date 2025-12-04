@@ -6,6 +6,7 @@ import Link from "next/link";
 import { useState, ChangeEvent } from "react";
 import { signup } from "../actions/auth";
 import { redirect } from "next/navigation";
+import { account } from "@/lib/Appwrite/client/clientAppwrite";
 interface Props {}
 
 const Page: NextPage<Props> = ({}) => {
@@ -24,14 +25,23 @@ const Page: NextPage<Props> = ({}) => {
   }
 
   const SignIn = async () => {
-    const res = await signup(User!.email, User!.password);
-    console.log(res);
+    const res = await signup(User.email, User.password);
+    const session = await account.createEmailPasswordSession(
+      User.email,
+      User.password
+    );
     setUser({ email: "", password: "", name: "" });
     redirect("/home");
   };
 
   return (
-    <form action={SignIn} className="flex flex-col gap-y-6 h-[400] justify-start">
+    <form
+      onSubmit={(e) => {
+        e.preventDefault();
+        SignIn();
+      }}
+      className="flex flex-col gap-y-6 h-[400] justify-start"
+    >
       <h1 className="text-center text-[36px]">Auth</h1>
       <div className="w-2xs flex flex-col gap-y-4">
         <Input
@@ -55,7 +65,9 @@ const Page: NextPage<Props> = ({}) => {
         <Button className="hover:bg-blue-500 bg-blue-700 border-solid ">
           Sign Up
         </Button>
-          <Link href="/auth/login" className="underline">Log in</Link>
+        <Link href="/auth/login" className="underline">
+          Log in
+        </Link>
       </div>
     </form>
   );

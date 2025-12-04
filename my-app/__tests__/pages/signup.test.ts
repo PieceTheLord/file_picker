@@ -1,29 +1,18 @@
 /**
  * @jest-environment node
  */
-import { createMocks } from "node-mocks-http";
-import { POST } from "@/app/api/signup/route";
-import { NextApiResponse } from "next";
+import { POST as SignupPOST } from "@/app/api/signup/route";
 
 describe("/api/signup", () => {
-  it("returns a user object on successful signup", async () => {
-    const req = new Request("http://localhost:3000/api/signup", {
+  it("should sign up a new user", async () => {
+    const signupReq = new Request("http://localhost:3000/api/signup", {
       method: "POST",
       body: JSON.stringify({
-        email: "alwx2021@mail.ru",
-        password: "Ganner1203!",
+        email: `test${Date.now()}@example.com`, // Ensure unique email for each test
+        password: "password123",
       }),
     });
-    const resp = new Response();
-    
-    const res = await POST(req, resp);
-    const data = await res.json();
-    console.log(data);
-
-    expect(data.error).toBe(
-      "A user with the same id, email, or phone already exists in this project."
-    ); // Check for successful status
-
-    // expect(JSON.parse(data)).toEqual({  }); // Check the response body
+    const signupRes = await SignupPOST(signupReq);
+    expect(signupRes.status).toBe(200);
   });
 });

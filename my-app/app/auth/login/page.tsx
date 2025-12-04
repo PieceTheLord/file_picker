@@ -1,29 +1,33 @@
-"use client"; // Keep this, as you're using useState and other client-side hooks
-
+"use client";
 import { login } from "@/app/actions/auth";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { account } from "@/lib/Appwrite/client/clientAppwrite";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { ChangeEvent, useState } from "react";
 
 export default function LoginPage() {
-  // Renamed, and removed async
   const [user, setUser] = useState<{ email: string; password: string }>({
     email: "",
     password: "",
   });
 
   const handleUserInput = (e: ChangeEvent<HTMLInputElement>) => {
-    setUser({ ...user, [e.target.name]: e.target.value }); //Removed not null assertion
+    setUser({ ...user, [e.target.name]: e.target.value });
   };
 
   const LogIn = async () => {
     try {
+      // Create session on the client
+      const clientSession = await account.createEmailPasswordSession(
+        user.email,
+        user.password
+      );
+      // Create session on the server
       const res = await login(user.email, user.password);
-      console.log(res);
       setUser({ email: "", password: "" });
-      redirect("/");
+      console.log(res, clientSession);
     } catch (error) {
       console.error("Login error:", error);
       // Handle the error (e.g., display an error message to the user)
@@ -37,8 +41,7 @@ export default function LoginPage() {
       <form
         id="login-form"
         onSubmit={(e) => {
-          // Added onSubmit handler
-          e.preventDefault(); // Prevent default form submission
+          e.preventDefault();
           LogIn();
         }}
         className="flex flex-col gap-y-4  w-2xs"
@@ -61,10 +64,16 @@ export default function LoginPage() {
             required
           />
         </div>
-        <Button type="submit" value="Login" className="hover:bg-blue-500 bg-blue-700 border-solid ">
+        <Button
+          type="submit"
+          value="Login"
+          className="hover:bg-blue-500 bg-blue-700 border-solid "
+        >
           Log In
         </Button>
-          <Link href={"/auth"} className="underline">Auth</Link>
+        <Link href={"/auth"} className="underline">
+          Auth
+        </Link>
       </form>
     </div>
   );

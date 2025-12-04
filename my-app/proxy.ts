@@ -1,15 +1,13 @@
 // middleware.ts
 import { NextResponse } from "next/server";
 import { NextRequest } from "next/server";
-import { cookies } from "next/headers";
 import { getLoggedInUser } from "./app/lib/appwrite";
 
 export async function proxy(request: NextRequest) {
-  const cookieStore = await cookies();
-  const session = cookieStore.get("appwrite-session");
   const user = await getLoggedInUser();
   const { pathname } = request.nextUrl;
-
+  console.log("Proxy.ts logs:", user);
+  
   if (!user && !pathname.startsWith("/auth")) {
     return NextResponse.redirect(new URL("/auth", request.url));
   } else if (

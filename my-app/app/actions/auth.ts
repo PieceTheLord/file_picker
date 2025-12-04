@@ -2,8 +2,8 @@
 
 import { createAdminClient } from "../lib/appwrite";
 import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
 import { ID } from "appwrite";
+import { redirect } from "next/navigation";
 
 export async function login(email: string, password: string) {
   // 1. Use Admin Client to create the session
@@ -21,7 +21,6 @@ export async function login(email: string, password: string) {
     secure: true,
     expires: new Date(session.expire),
   });
-
   redirect("/home");
 }
 
@@ -45,5 +44,4 @@ export async function signup(email: string, password: string) {
     expires: new Date(session.expire),
   });
 
-  redirect("/home");
 }

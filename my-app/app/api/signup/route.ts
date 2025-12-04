@@ -6,7 +6,7 @@ import { Models, ID } from "node-appwrite";
 async function setCookies(session: Models.Session) {
   const cookieStore = await cookies();
 
-  cookieStore.set("session", session.secret, {
+  cookieStore.set("appwrite-session", session.secret, {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production", //  set to true in production
     sameSite: "strict",
@@ -15,7 +15,7 @@ async function setCookies(session: Models.Session) {
   });
 }
 
-export async function POST(req: Request, res: Response) {
+export async function POST(req: Request) {
   try {
     const { account } = await createAdminClient();
 

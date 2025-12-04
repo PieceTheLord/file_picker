@@ -15,7 +15,7 @@ async function setCookies(session: Models.Session) {
   });
 }
 
-export async function POST(req: Request, res: Response) {
+export async function POST(req: Request) {
   try {
     const { email, password } = await req.json();
 
@@ -26,7 +26,7 @@ export async function POST(req: Request, res: Response) {
     console.log(email, password);
     setCookies(session);
     const  clientAccount = await createSessionClient();
-    const user = clientAccount?.account.get();
+    const user = await clientAccount?.account.get();
     console.log(user);
 
     return NextResponse.json({ user,  status: 200 });

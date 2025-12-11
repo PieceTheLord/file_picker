@@ -47,19 +47,19 @@ const Page: NextPage<Props> = ({}) => {
         <Input
           name="email"
           placeholder="Email"
-          value={User!.email}
+          value={User.email}
           onChange={handleUserInput}
         />
         <Input
           name="password"
           placeholder="Password"
-          value={User!.password}
+          value={User.password}
           onChange={handleUserInput}
         />
         <Input
           name="name"
           placeholder="Name"
-          value={User!.name}
+          value={User.name}
           onChange={handleUserInput}
         />
         <Button className="hover:bg-blue-500 bg-blue-700 border-solid ">

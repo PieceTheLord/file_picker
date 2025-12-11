@@ -6,7 +6,7 @@ import { ChangeEvent, useState } from "react";
 export default function Home() {
   
   return (
-    <h1>
+    <h1 className="text-[36px]">
       Hello
     </h1>
   );

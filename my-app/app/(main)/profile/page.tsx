@@ -9,7 +9,7 @@ import { redirect } from "next/navigation";
 
 const Page: NextPage = () => {
   return (
-    <div className="">
+    <div className="text-[36px]">
       Profile
     </div>
   );

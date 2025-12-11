@@ -1,8 +1,19 @@
-import { Client, Account, Databases } from "node-appwrite";
+import {
+  Client,
+  Account,
+  Databases,
+  Storage,
+  Functions,
+  Messaging,
+} from "node-appwrite";
 import { cookies } from "next/headers";
 
 export async function createSessionClient(): Promise<{
   account: Account;
+  storage?: Storage;
+  database?: Databases;
+  functions?: Functions;
+  messaging?: Messaging;
 } | null> {
   const client = new Client()
     .setEndpoint(process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT!)
@@ -21,6 +32,18 @@ export async function createSessionClient(): Promise<{
     get account() {
       return new Account(client);
     },
+    get storage() {
+      return new Storage(client);
+    },
+    get database() {
+      return new Databases(client);
+    },
+    get functions() {
+      return new Functions(client);
+    },
+    get messaging() {
+      return new Messaging(client);
+    },
   };
 }
 
@@ -34,6 +57,18 @@ export async function createAdminClient() {
     get account() {
       return new Account(client);
     },
+    get storage() {
+      return new Storage(client);
+    },
+    get database() {
+      return new Databases(client);
+    },
+    get functions() {
+      return new Functions(client);
+    },
+    get messaging() {
+      return new Messaging(client);
+    },
   };
 }
 
@@ -45,7 +80,7 @@ export async function getLoggedInUser() {
 
   const cookieStore = await cookies(); // In Next.js 15, this is async!
   const session = cookieStore.get("appwrite-session");
-  
+
   if (!session) return null;
 
   client.setSession(session.value);

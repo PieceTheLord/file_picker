@@ -1,6 +1,8 @@
 "use client";
 
+import { FileUploadFormDemo } from "@/app/ui/fileUploadComponent";
 import { Button } from "@/components/ui/button";
+import { FileUpload } from "@/components/ui/file-upload";
 import { account } from "@/lib/Appwrite/client/clientAppwrite";
 import { deleteCookie } from "cookies-next";
 import { redirect } from "next/navigation";
@@ -27,17 +29,17 @@ export default function Page() {
   }, []);
 
   return (
-    <div>
-      <h1>Home</h1>
-      <p>{JSON.stringify(User)}</p>
+    <div className="bg-gray-100 py-8 px-6 rounded-xl max-w-3xl flex flex-col justify-center items-center">
+      <h1 className="text-[36px]">Home</h1>
       <Button
         onClick={(e) => {
-          // e.preventDefault();
+          e.preventDefault();
           logout();
         }}
       >
         Log out
       </Button>
+      <FileUploadFormDemo />
     </div>
   );
 }

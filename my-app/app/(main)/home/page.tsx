@@ -2,11 +2,12 @@
 
 import { FileUploadFormDemo } from "@/app/ui/fileUploadComponent";
 import { Button } from "@/components/ui/button";
-import { FileUpload } from "@/components/ui/file-upload";
 import { account } from "@/lib/Appwrite/client/clientAppwrite";
+import { getLoggedInUser } from "@/lib/Appwrite/client/getLoggedInUser";
 import { deleteCookie } from "cookies-next";
 import { redirect } from "next/navigation";
 import { useEffect, useState } from "react";
+import { getCookie } from "cookies-next";
 
 async function logout() {
   const res = await fetch("http://localhost:3000/api/logout", {
@@ -19,14 +20,6 @@ async function logout() {
 }
 
 export default function Page() {
-  const [User, setUser] = useState<any>({});
-  useEffect(() => {
-    const getUser = async () => {
-      setUser(await account.get());
-      console.log(await account.get());
-    };
-    getUser();
-  }, []);
 
   return (
     <div className="bg-gray-100 py-8 px-6 rounded-xl max-w-3xl flex flex-col justify-center items-center">

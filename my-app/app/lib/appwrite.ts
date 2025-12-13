@@ -5,6 +5,7 @@ import {
   Storage,
   Functions,
   Messaging,
+  TablesDB,
 } from "node-appwrite";
 import { cookies } from "next/headers";
 
@@ -68,6 +69,19 @@ export async function createAdminClient() {
     },
     get messaging() {
       return new Messaging(client);
+    },
+    get client() {
+      return client;
+    },
+  };
+}
+
+export async function getTable() {
+  const { client } = await createAdminClient();
+
+  return {
+    get table() {
+      return new TablesDB(client);
     },
   };
 }

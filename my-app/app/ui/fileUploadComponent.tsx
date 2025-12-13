@@ -26,6 +26,9 @@ import {
   FileUploadList,
   FileUploadTrigger,
 } from "@/components/ui/file-upload";
+import { account } from "@/lib/Appwrite/client/clientAppwrite";
+import { ID } from "appwrite";
+import { getLoggedInUser } from "@/lib/Appwrite/client/getLoggedInUser";
 
 const formSchema = z.object({
   files: z
@@ -80,6 +83,8 @@ export function FileUploadFormDemo() {
 
         if (response.ok) {
           toast.success("Files uploaded successfully!");
+          console.log((await getLoggedInUser())!.email, await response.json());
+
           form.reset(); // Clear the form after successful upload
         } else {
           const errorData = await response.json();

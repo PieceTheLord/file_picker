@@ -10,7 +10,10 @@ export async function login(email: string, password: string) {
   const { account } = await createAdminClient();
 
   // 2. Create session
-  const session = await account.createEmailPasswordSession(email, password);
+  const session = await account.createEmailPasswordSession({
+    email,
+    password,
+  });
 
   // 3. MANUALLY set the cookie so the Server can read it later
   const cookieStore = await cookies();
@@ -29,10 +32,10 @@ export async function signup(email: string, password: string) {
   const { account } = await createAdminClient();
 
   // 2. Create the user in AppWrite Authetication interface
-  const user = await account.create(ID.unique(), email, password);
+  const user = await account.create({ userId: ID.unique(), email, password });
 
   // 3 Create the session
-  const session = await account.createEmailPasswordSession(email, password);
+  const session = await account.createEmailPasswordSession({ email, password });
 
   // 4. MANUALLY set the cookie so the Server can read it later
   const cookieStore = await cookies();
@@ -43,5 +46,4 @@ export async function signup(email: string, password: string) {
     secure: true,
     expires: new Date(session.expire),
   });
-
 }

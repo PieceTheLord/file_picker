@@ -10,7 +10,8 @@ import {
 
 export const client = new Client()
   .setEndpoint(process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT!)
-  .setProject(process.env.NEXT_PUBLIC_APPWRITE_PROJECT_ID!);
+  .setProject(process.env.NEXT_PUBLIC_APPWRITE_PROJECT_ID!)
+  .setDevKey(process.env.APPWRITE_SERVER_API_KEY!);
 
 
 

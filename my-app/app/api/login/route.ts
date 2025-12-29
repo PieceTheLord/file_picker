@@ -21,7 +21,7 @@ export async function POST(req: Request) {
 
     const { account } = await createAdminClient();
 
-    const session = await account.createEmailPasswordSession(email, password);
+    const session = await account.createEmailPasswordSession({email, password});
 
     console.log(email, password);
     setCookies(session);
